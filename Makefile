@@ -7,6 +7,12 @@ UNZIP = unzip -q -o
 VENDOR_SDK_ZIP = $(VENDOR_SDK_ZIP_$(VENDOR_SDK))
 VENDOR_SDK_DIR = $(VENDOR_SDK_DIR_$(VENDOR_SDK))
 
+VENDOR_SDK_ZIP_nodemcu_master = nodemcu-firmware-master.zip
+VENDOR_SDK_DIR_nodemcu_master = nodemcu-firmware-master
+VENDOR_SDK_ZIP_nodemcu_dev120 = nodemcu-firmware-dev120.zip
+VENDOR_SDK_DIR_nodemcu_dev120 = nodemcu-firmware-dev120
+VENDOR_SDK_ZIP_nodemcu_dev096 = nodemcu-firmware-dev096.zip
+VENDOR_SDK_DIR_nodemcu_dev096 = nodemcu-firmware-dev096
 VENDOR_SDK_ZIP_1.4.0 = esp_iot_sdk_v1.4.0_15_09_18.zip
 VENDOR_SDK_DIR_1.4.0 = esp_iot_sdk_v1.4.0
 VENDOR_SDK_ZIP_1.3.0 = esp_iot_sdk_v1.3.0_15_08_08.zip
@@ -72,6 +78,15 @@ $(TOOLCHAIN)/xtensa-lx106-elf/sysroot/lib/libcirom.a: $(TOOLCHAIN)/xtensa-lx106-
 libcirom: $(TOOLCHAIN)/xtensa-lx106-elf/sysroot/lib/libcirom.a
 
 sdk_patch: .sdk_patch_$(VENDOR_SDK)
+
+.sdk_patch_nodemcu_master:
+	@touch $@
+	
+.sdk_patch_nodemcu_dev120:
+	@touch $@
+	
+.sdk_patch_nodemcu_dev096:
+	@touch $@
 
 .sdk_patch_1.4.0:
 	patch -N -d $(VENDOR_SDK_DIR_1.4.0) -p1 < c_types-c99.patch
@@ -204,6 +219,15 @@ $(VENDOR_SDK_DIR)/.dir: $(VENDOR_SDK_ZIP)
 	-mv License $(VENDOR_SDK_DIR)
 	touch $@
 
+nodemcu-firmware-master.zip:
+	wget --content-disposition "https://github.com/nodemcu/nodemcu-firmware/archive/master.zip"
+
+nodemcu-firmware-dev120.zip:
+	wget --content-disposition "https://github.com/nodemcu/nodemcu-firmware/archive/dev120.zip"
+	
+nodemcu-firmware-dev096.zip:
+	wget --content-disposition "https://github.com/nodemcu/nodemcu-firmware/archive/dev096.zip"
+	
 esp_iot_sdk_v1.4.0_15_09_18.zip:
 	wget --content-disposition "http://bbs.espressif.com/download/file.php?id=838"
 
